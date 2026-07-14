@@ -137,7 +137,7 @@
       top: 50%;
       width: min(420px, 67.7%);
       aspect-ratio: 1 / 1;
-      transform: translate(-50%, -50%);
+      transform: translate(-50%, -55%);
       transform-style: preserve-3d;
       z-index: 2;
     }
@@ -160,12 +160,13 @@
       object-fit: contain;
       display: block;
       transform-style: preserve-3d;
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
+      backface-visibility: visible;
+      -webkit-backface-visibility: visible;
     }
 
-    .logo-front {
+    .logo-face {
       transform: translateZ(4px);
+
       filter:
         drop-shadow(1.5px 0 0 rgba(255, 35, 80, 0.42))
         drop-shadow(-1.5px 0 0 rgba(0, 210, 255, 0.42));
@@ -175,67 +176,52 @@
       filter: brightness(0.7);
     }
 
-    .logo-depth-front-1 {
+    .logo-depth-1 {
       transform: translateZ(3px);
     }
 
-    .logo-depth-front-2 {
+    .logo-depth-2 {
       transform: translateZ(2px);
     }
 
-    .logo-depth-front-3 {
+    .logo-depth-3 {
       transform: translateZ(1px);
     }
 
-    .logo-depth-front-4 {
+    .logo-depth-4 {
       transform: translateZ(0);
     }
 
-    .logo-depth-front-5 {
+    .logo-depth-5 {
       transform: translateZ(-1px);
     }
 
-    .logo-depth-front-6 {
+    .logo-depth-6 {
       transform: translateZ(-2px);
     }
 
-    .logo-depth-front-7 {
+    .logo-depth-7 {
       transform: translateZ(-3px);
     }
 
-    .logo-depth-back-1 {
-      transform: rotateY(180deg) translateZ(3px);
+    .logo-depth-8 {
+      transform: translateZ(-4px);
     }
 
-    .logo-depth-back-2 {
-      transform: rotateY(180deg) translateZ(2px);
-    }
-
-    .logo-depth-back-3 {
-      transform: rotateY(180deg) translateZ(1px);
-    }
-
-    .logo-depth-back-4 {
-      transform: rotateY(180deg) translateZ(0);
-    }
-
-    .logo-depth-back-5 {
-      transform: rotateY(180deg) translateZ(-1px);
-    }
-
-    .logo-depth-back-6 {
-      transform: rotateY(180deg) translateZ(-2px);
-    }
-
-    .logo-depth-back-7 {
-      transform: rotateY(180deg) translateZ(-3px);
-    }
-
-    .logo-back {
-      transform: rotateY(180deg) translateZ(4px);
-      filter:
-        drop-shadow(1.5px 0 0 rgba(255, 35, 80, 0.42))
-        drop-shadow(-1.5px 0 0 rgba(0, 210, 255, 0.42));
+    .logo-subline {
+      position: absolute;
+      left: 50%;
+      top: calc(50% + min(235px, 37.9%));
+      transform: translateX(-50%);
+      width: 100%;
+      text-align: center;
+      color: #b5b5b5;
+      font-size: clamp(12px, 1.5vw, 16px);
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      z-index: 3;
     }
 
     @keyframes turntableSpin {
@@ -288,122 +274,75 @@
             src="https://www.robotrepair.co/RR_Co.png"
             alt=""
             aria-hidden="true"
-            class="logo-depth logo-depth-front-7"
+            class="logo-depth logo-depth-8"
           />
 
           <img
             src="https://www.robotrepair.co/RR_Co.png"
             alt=""
             aria-hidden="true"
-            class="logo-depth logo-depth-front-6"
+            class="logo-depth logo-depth-7"
           />
 
           <img
             src="https://www.robotrepair.co/RR_Co.png"
             alt=""
             aria-hidden="true"
-            class="logo-depth logo-depth-front-5"
+            class="logo-depth logo-depth-6"
           />
 
           <img
             src="https://www.robotrepair.co/RR_Co.png"
             alt=""
             aria-hidden="true"
-            class="logo-depth logo-depth-front-4"
+            class="logo-depth logo-depth-5"
           />
 
           <img
             src="https://www.robotrepair.co/RR_Co.png"
             alt=""
             aria-hidden="true"
-            class="logo-depth logo-depth-front-3"
+            class="logo-depth logo-depth-4"
           />
 
           <img
             src="https://www.robotrepair.co/RR_Co.png"
             alt=""
             aria-hidden="true"
-            class="logo-depth logo-depth-front-2"
+            class="logo-depth logo-depth-3"
           />
 
           <img
             src="https://www.robotrepair.co/RR_Co.png"
             alt=""
             aria-hidden="true"
-            class="logo-depth logo-depth-front-1"
+            class="logo-depth logo-depth-2"
+          />
+
+          <img
+            src="https://www.robotrepair.co/RR_Co.png"
+            alt=""
+            aria-hidden="true"
+            class="logo-depth logo-depth-1"
           />
 
           <img
             src="https://www.robotrepair.co/RR_Co.png"
             alt="Robot Repair Co. Logo"
-            class="logo-face logo-front"
-          />
-
-          <img
-            src="https://www.robotrepair.co/RR_Co.png"
-            alt=""
-            aria-hidden="true"
-            class="logo-depth logo-depth-back-7"
-          />
-
-          <img
-            src="https://www.robotrepair.co/RR_Co.png"
-            alt=""
-            aria-hidden="true"
-            class="logo-depth logo-depth-back-6"
-          />
-
-          <img
-            src="https://www.robotrepair.co/RR_Co.png"
-            alt=""
-            aria-hidden="true"
-            class="logo-depth logo-depth-back-5"
-          />
-
-          <img
-            src="https://www.robotrepair.co/RR_Co.png"
-            alt=""
-            aria-hidden="true"
-            class="logo-depth logo-depth-back-4"
-          />
-
-          <img
-            src="https://www.robotrepair.co/RR_Co.png"
-            alt=""
-            aria-hidden="true"
-            class="logo-depth logo-depth-back-3"
-          />
-
-          <img
-            src="https://www.robotrepair.co/RR_Co.png"
-            alt=""
-            aria-hidden="true"
-            class="logo-depth logo-depth-back-2"
-          />
-
-          <img
-            src="https://www.robotrepair.co/RR_Co.png"
-            alt=""
-            aria-hidden="true"
-            class="logo-depth logo-depth-back-1"
-          />
-
-          <img
-            src="https://www.robotrepair.co/RR_Co.png"
-            alt=""
-            aria-hidden="true"
-            class="logo-face logo-back"
+            class="logo-face"
           />
 
         </div>
       </div>
+
+      <p class="logo-subline">WE FIX BOTS</p>
 
     </div>
   </main>
 
   <footer>
     <p class="footer-text">
-      Robot Repair Co. © <span id="year"></span>. All rights reserved.
+      Robot Repair Co. - We Fix Bots © <span id="year"></span>. All rights reserved.
     </p>
   </footer>
 

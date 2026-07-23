@@ -13,10 +13,6 @@
       padding: 0;
     }
 
-    :root {
-      --logo-spin-speed: 4s;
-    }
-
     html,
     body {
       width: 100%;
@@ -30,6 +26,7 @@
       min-height: 100vh;
       overflow: hidden;
       position: relative;
+      touch-action: none;
     }
 
     body::before {
@@ -147,7 +144,6 @@
       width: 100%;
       height: 100%;
       transform-style: preserve-3d;
-      animation: turntableSpin var(--logo-spin-speed) linear infinite;
       will-change: transform;
     }
 
@@ -224,16 +220,6 @@
       z-index: 3;
     }
 
-    @keyframes turntableSpin {
-      from {
-        transform: rotateY(0deg);
-      }
-
-      to {
-        transform: rotateY(360deg);
-      }
-    }
-
     footer {
       position: fixed;
       left: 0;
@@ -254,7 +240,6 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .logo-wrap,
       body::after {
         animation: none;
       }
@@ -268,7 +253,7 @@
     <div class="logo-scene">
 
       <div class="logo-anchor">
-        <div class="logo-wrap">
+        <div class="logo-wrap" id="logoWrap">
 
           <img
             src="https://www.robotrepair.co/RR_Co.png"
@@ -349,6 +334,246 @@
   <script>
     document.getElementById("year").textContent =
       new Date().getFullYear();
+
+    const logoWrap = document.getElementById("logoWrap");
+
+    let currentRotationX = 0;
+    let currentRotationY = 0;
+    let currentRotationZ = 0;
+
+    let targetRotationX = 0;
+    let targetRotationY = 0;
+    let targetRotationZ = 0;
+
+    const maxRotationX = 7;
+    const maxRotationY = 10;
+    const maxRotationZ = 1.5;
+
+    const smoothing = 0.075;
+
+    /*
+      DESKTOP MOUSE CONTROL
+    */
+
+    document.addEventListener("mousemove", (event) => {
+
+      const mouseX =
+        (event.clientX / window.innerWidth) * 2 - 1;
+
+      const mouseY =
+        (event.clientY / window.innerHeight) * 2 - 1;
+
+      targetRotationY =
+        mouseX * maxRotationY;
+
+      targetRotationX =
+        -mouseY * maxRotationX;
+
+      targetRotationZ =
+        mouseX *
+        mouseY *
+        maxRotationZ;
+    });
+
+    document.addEventListener("mouseleave", () => {
+
+      targetRotationX = 0;
+      targetRotationY = 0;
+      targetRotationZ = 0;
+    });
+
+    /*
+      MOBILE TOUCH CONTROL
+
+      Dragging horizontally rotates left/right.
+      Dragging vertically tilts up/down.
+
+      Rotation is still restricted by the
+      exact same maximum boundaries.
+    */
+
+    let isTouching = false;
+
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    let touchStartRotationX = 0;
+    let touchStartRotationY = 0;
+
+    document.addEventListener(
+      "touchstart",
+      (event) => {
+
+        if (event.touches.length !== 1) {
+          return;
+        }
+
+        isTouching = true;
+
+        const touch = event.touches[0];
+
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+
+        touchStartRotationX = targetRotationX;
+        touchStartRotationY = targetRotationY;
+
+      },
+      {
+        passive: false
+      }
+    );
+
+    document.addEventListener(
+      "touchmove",
+      (event) => {
+
+        if (
+          !isTouching ||
+          event.touches.length !== 1
+        ) {
+          return;
+        }
+
+        event.preventDefault();
+
+        const touch = event.touches[0];
+
+        const deltaX =
+          touch.clientX - touchStartX;
+
+        const deltaY =
+          touch.clientY - touchStartY;
+
+        /*
+          Controls how sensitive finger dragging is.
+          Higher numbers = stronger movement.
+        */
+
+        const touchSensitivity = 0.07;
+
+        targetRotationY =
+          touchStartRotationY +
+          deltaX * touchSensitivity;
+
+        targetRotationX =
+          touchStartRotationX -
+          deltaY * touchSensitivity;
+
+        /*
+          Keep rotation inside the subtle boundaries.
+        */
+
+        targetRotationY = Math.max(
+          -maxRotationY,
+          Math.min(
+            maxRotationY,
+            targetRotationY
+          )
+        );
+
+        targetRotationX = Math.max(
+          -maxRotationX,
+          Math.min(
+            maxRotationX,
+            targetRotationX
+          )
+        );
+
+        /*
+          Slight natural roll based on
+          the current combined rotation.
+        */
+
+        targetRotationZ =
+          (targetRotationY / maxRotationY) *
+          (targetRotationX / maxRotationX) *
+          maxRotationZ;
+
+      },
+      {
+        passive: false
+      }
+    );
+
+    document.addEventListener(
+      "touchend",
+      () => {
+
+        isTouching = false;
+
+        /*
+          Keep the logo where the user left it.
+
+          It will continue subtly floating
+          instead of snapping back immediately.
+        */
+
+      },
+      {
+        passive: true
+      }
+    );
+
+    document.addEventListener(
+      "touchcancel",
+      () => {
+
+        isTouching = false;
+
+      },
+      {
+        passive: true
+      }
+    );
+
+    /*
+      MAIN ANIMATION
+    */
+
+    function animate(time) {
+
+      currentRotationX +=
+        (targetRotationX - currentRotationX) *
+        smoothing;
+
+      currentRotationY +=
+        (targetRotationY - currentRotationY) *
+        smoothing;
+
+      currentRotationZ +=
+        (targetRotationZ - currentRotationZ) *
+        smoothing;
+
+      /*
+        Very subtle passive floating movement.
+        No automatic rotation.
+      */
+
+      const floatY =
+        Math.sin(time * 0.0011) * 3;
+
+      const floatX =
+        Math.sin(time * 0.00073) * 1;
+
+      const floatZ =
+        Math.sin(time * 0.00087) * 2;
+
+      logoWrap.style.transform = `
+        translate3d(
+          ${floatX}px,
+          ${floatY}px,
+          ${floatZ}px
+        )
+        rotateX(${currentRotationX}deg)
+        rotateY(${currentRotationY}deg)
+        rotateZ(${currentRotationZ}deg)
+      `;
+
+      requestAnimationFrame(animate);
+    }
+
+    requestAnimationFrame(animate);
   </script>
 
 </body>
